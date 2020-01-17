@@ -77,9 +77,11 @@ class PlayGame extends React.Component {
 		console.log('ionViewDidLeave event fired');
 	}
 
-	// Not ready, must add randomness :)
 	shuffleListOfCards = (listOfCards: Array<Card>) => {
-		listOfCards.sort((card1: Card, card2: Card) => 1);
+		for (let i = listOfCards.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[listOfCards[i], listOfCards[j]] = [listOfCards[j], listOfCards[i]];
+		}
 	};
 
 	flipCard = () => {
@@ -97,7 +99,6 @@ class PlayGame extends React.Component {
 	};
 
 	nextCard = () => {
-		console.log('HELLO');
 		let stringOfDeckOfCards: string = localStorage.getItem('deck_of_cards')!;
 		let deckOfCards: Deck = JSON.parse(stringOfDeckOfCards);
 		console.log(deckOfCards);
@@ -117,6 +118,10 @@ class PlayGame extends React.Component {
 			this.flipCard();
 		}
 	};
+
+	lastCard: JSX.Element = (
+		<Card title="Congratulations! You have finnished the game :)" description="Now just click on the screen to jump back to menu" backgroundColor="#ffffff" fontColor="#000000" />
+	);
 
 	render() {
 		return (
