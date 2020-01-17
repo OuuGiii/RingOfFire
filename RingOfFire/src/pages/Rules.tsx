@@ -74,6 +74,7 @@ const Rules: React.FC<RouteComponentProps> = props => {
 			for (let rule in default_rules) {
 				listOfRules['rule' + i] = default_rules['rule' + i];
 				i++;
+				console.log(rule);
 			}
 			let stringOfListOfRules: string = JSON.stringify(listOfRules);
 			localStorage.setItem('list_of_rules', stringOfListOfRules);
@@ -94,7 +95,7 @@ const Rules: React.FC<RouteComponentProps> = props => {
 			if (!listOfRules.hasOwnProperty(key)) continue;
 
 			let rule = listOfRules[key];
-			const rule_element = <Rule title={rule.title} description={rule.description} isUsed={rule.isUsed} />;
+			const rule_element: JSX.Element = <Rule name={key} title={rule.title} description={rule.description} isUsed={rule.isUsed} />;
 			rules_list.push(rule_element);
 		}
 
