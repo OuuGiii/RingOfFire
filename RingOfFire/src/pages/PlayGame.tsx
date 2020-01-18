@@ -1,9 +1,9 @@
 import { IonBackButton, IonButtons, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonIcon, withIonLifeCycle } from '@ionic/react';
-import React from 'react';
+import React, { Props } from 'react';
 import { informationCircleOutline } from 'ionicons/icons';
 import Rules from './Rules';
 import Card from '../components/Card';
-
+import { RouteProps, RouteComponentProps } from 'react-router';
 interface Card {
 	title: string;
 	description: string;
@@ -16,14 +16,15 @@ interface Deck {
 
 const AMOUNT_OF_CARDS_PER_RULE = 4;
 
-class PlayGame extends React.Component {
+class PlayGame extends React.Component<RouteComponentProps> {
 	state = {
-		cardShown: <Card title="Click me to start" description="Now just click on the screen to start playing" backgroundColor="#ffffff" fontColor="#000000" />
+		cardShown: null,
+		gameFinnished: false
 	};
 
 	ionViewWillEnter() {
 		console.log('ionViewWillEnter event fired');
-		console.log('ionViewWillEnter event fired');
+		this.setState({ cardShown: <Card title="Click me to start" description="Now just click on the screen to start playing" backgroundColor="#ffffff" fontColor="#000000" /> });
 		let deckOfCards: Deck = {
 			cards: [],
 			lenght: 0
@@ -75,6 +76,7 @@ class PlayGame extends React.Component {
 
 	ionViewDidLeave() {
 		console.log('ionViewDidLeave event fired');
+		this.setState({ gameFinnished: false });
 	}
 
 	shuffleListOfCards = (listOfCards: Array<Card>) => {
@@ -99,23 +101,32 @@ class PlayGame extends React.Component {
 	};
 
 	nextCard = () => {
+		if (this.state.gameFinnished === true) {
+			this.props.history.push('/home');
+		}
 		let stringOfDeckOfCards: string = localStorage.getItem('deck_of_cards')!;
 		let deckOfCards: Deck = JSON.parse(stringOfDeckOfCards);
 		console.log(deckOfCards);
 
-		let card = deckOfCards.cards.pop()!;
-		console.log(card);
-		console.log(deckOfCards);
+		if (deckOfCards.lenght !== 0) {
+			let card = deckOfCards.cards.pop()!;
+			console.log(card);
+			console.log(deckOfCards);
 
-		this.setState({ cardShown: <Card title={card.title} description={card.description} backgroundColor="" fontColor="" /> });
-		console.log(this.state.cardShown);
-		console.log(localStorage);
+			this.setState({ cardShown: <Card title={card.title} description={card.description} backgroundColor="" fontColor="" /> });
+			console.log(this.state.cardShown);
+			console.log(localStorage);
 
-		this.updateDeckOfCardsToLocalStorage(deckOfCards);
+			this.updateDeckOfCardsToLocalStorage(deckOfCards);
+			console.log(deckOfCards);
 
-		let titleElement: HTMLElement = document.getElementById('title')!;
-		if (titleElement.hidden === true) {
-			this.flipCard();
+			let titleElement: HTMLElement = document.getElementById('title')!;
+			if (titleElement.hidden === true) {
+				this.flipCard();
+			}
+		} else {
+			this.setState({ cardShown: this.lastCard });
+			this.setState({ gameFinnished: true });
 		}
 	};
 
@@ -128,7 +139,7 @@ class PlayGame extends React.Component {
 			<IonPage>
 				<IonHeader>
 					<IonToolbar>
-						<IonButtons slot="start">
+						<IonButtons slot="start" id="goHome">
 							<IonBackButton defaultHref="/home" />
 						</IonButtons>
 
