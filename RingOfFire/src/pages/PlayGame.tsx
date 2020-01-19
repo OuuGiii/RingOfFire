@@ -1,9 +1,9 @@
 import { IonBackButton, IonButtons, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonIcon, withIonLifeCycle } from '@ionic/react';
-import React, { Props } from 'react';
+import React from 'react';
 import { informationCircleOutline } from 'ionicons/icons';
 import Rules from './Rules';
 import Card from '../components/Card';
-import { RouteProps, RouteComponentProps } from 'react-router';
+import { RouteComponentProps } from 'react-router';
 interface Card {
 	title: string;
 	description: string;
