@@ -29,29 +29,50 @@ interface Rules {
 }
 
 const default_rules: Rules = {
-	rule1: {
-		title: 'Rule1',
-		description: 'Description1',
+	Rule1: {
+		title: 'Waterfall💧',
+		description: 'Everyone needs to start chugging their drink and can stop when the person on their left stops chugging.',
 		isUsed: true
 	},
-	rule2: {
-		title: 'Rule2',
-		description: 'Description2',
+	Rule2: {
+		title: '🐥🐥🐥',
+		description: 'Girls (chicks) drinks.',
 		isUsed: true
 	},
-	rule3: {
-		title: 'Rule3',
-		description: 'Description3',
+	Rule3: {
+		title: '🍆🍆🍆',
+		description: 'Boys (dicks) drinks.',
 		isUsed: true
 	},
-	rule4: {
-		title: 'Rule4',
-		description: 'Description4',
+	Rule4: {
+		title: '🐍👀',
+		description: "One person gets the 'snake eyes' and if another persons looks into them then that person has to drink.",
 		isUsed: true
 	},
-	rule5: {
-		title: 'Rule5',
-		description: 'Description5',
+	Rule5: {
+		title: '❓👑',
+		description: "One person gets to be the 'The Question master' and if another person answers his questions, then that person has to drink.",
+		isUsed: true
+	},
+	Rule6: {
+		title: '7️⃣',
+		description: 'You count together one by one untill somebody fails. If the number:\n- contains a 7\n- can be divided by 7\n- contains double numbers\nThen the player can say anything else but 7.',
+		isUsed: true
+	},
+	Rule7: {
+		title: '🧝‍♀️🧛🏻‍♂️🧙🏼‍♂️🦖🐲',
+		description: 'You tell a story together by repeating what has been said and adding one word to the story.',
+		isUsed: true
+	},
+	Rule8: {
+		title: '🙎🏻‍♂🍻🙎🏽‍♂',
+		description: 'You can choose someone to be your drinking mate. This person must always drink when you are drinking',
+		isUsed: true
+	},
+	Rule9: {
+		title: 'Never have I ever',
+		description:
+			'Everyone puts 3 fingers up and one by one you say one statement. If one statement is correct, you must put one finger down. The game ends when one person don’t have any fingers up anymore.',
 		isUsed: true
 	}
 };
@@ -67,15 +88,18 @@ const Rules: React.FC<RouteComponentProps> = props => {
 
 	useIonViewWillEnter(() => {
 		console.log('ionViewWillEnter event fired');
+
 		if (localStorage.getItem('list_of_rules') === null) {
 			let listOfRules: Rules = {};
 
 			let i = 1;
 			for (let rule in default_rules) {
-				listOfRules['rule' + i] = default_rules['rule' + i];
+				listOfRules['Rule' + i] = default_rules['Rule' + i];
 				i++;
 				console.log(rule);
+				console.log(listOfRules['Rule' + i]);
 			}
+
 			let stringOfListOfRules: string = JSON.stringify(listOfRules);
 			localStorage.setItem('list_of_rules', stringOfListOfRules);
 		}
