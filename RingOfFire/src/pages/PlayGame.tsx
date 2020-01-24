@@ -1,18 +1,10 @@
 import { IonBackButton, IonButtons, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonIcon, withIonLifeCycle } from '@ionic/react';
 import React from 'react';
 import { informationCircleOutline } from 'ionicons/icons';
-import Rules from './Rules';
+
 import Card from '../components/Card';
 import { RouteComponentProps } from 'react-router';
-interface Card {
-	title: string;
-	description: string;
-}
-
-interface Deck {
-	cards: Card[];
-	lenght: number;
-}
+import { IRules, ICard, IDeck } from './../constants/interfaces';
 
 const AMOUNT_OF_CARDS_PER_RULE = 4;
 
@@ -25,16 +17,16 @@ class PlayGame extends React.Component<RouteComponentProps> {
 	ionViewWillEnter() {
 		console.log('ionViewWillEnter event fired');
 		this.setState({ cardShown: <Card title="Click me to start" description="Now just click on the screen to start playing" backgroundColor="#ffffff" fontColor="#000000" /> });
-		let deckOfCards: Deck = {
+		let deckOfCards: IDeck = {
 			cards: [],
 			lenght: 0
 		};
-		let listOfCards: Array<Card> = [];
+		let listOfCards: Array<ICard> = [];
 		if (localStorage.getItem('list_of_rules') === null) {
 			console.log('No rules where found! Add some rules to play the game');
 		} else {
 			let stringOfListOfRules: string = localStorage.getItem('list_of_rules')!;
-			let listOfRules: Rules = JSON.parse(stringOfListOfRules);
+			let listOfRules: IRules = JSON.parse(stringOfListOfRules);
 
 			for (let key in listOfRules) {
 				// skip loop if the property is from prototype
@@ -45,7 +37,7 @@ class PlayGame extends React.Component<RouteComponentProps> {
 				if (rule.isUsed === true) {
 					let addedCards = 0;
 					for (addedCards; addedCards < AMOUNT_OF_CARDS_PER_RULE; addedCards++) {
-						let card: Card = {
+						let card: ICard = {
 							title: rule.title,
 							description: rule.description
 						};
@@ -79,7 +71,7 @@ class PlayGame extends React.Component<RouteComponentProps> {
 		this.setState({ gameFinnished: false });
 	}
 
-	shuffleListOfCards = (listOfCards: Array<Card>) => {
+	shuffleListOfCards = (listOfCards: Array<ICard>) => {
 		for (let i = listOfCards.length - 1; i > 0; i--) {
 			const j = Math.floor(Math.random() * (i + 1));
 			[listOfCards[i], listOfCards[j]] = [listOfCards[j], listOfCards[i]];
@@ -94,7 +86,7 @@ class PlayGame extends React.Component<RouteComponentProps> {
 		descriptionContent.hidden = !descriptionContent.hidden;
 	};
 
-	updateDeckOfCardsToLocalStorage = (deckOfCards: Deck) => {
+	updateDeckOfCardsToLocalStorage = (deckOfCards: IDeck) => {
 		deckOfCards.lenght = deckOfCards.cards.length;
 		let stringOfDeckOfCards: string = JSON.stringify(deckOfCards);
 		localStorage.setItem('deck_of_cards', stringOfDeckOfCards);
@@ -105,7 +97,7 @@ class PlayGame extends React.Component<RouteComponentProps> {
 			this.props.history.push('/home');
 		}
 		let stringOfDeckOfCards: string = localStorage.getItem('deck_of_cards')!;
-		let deckOfCards: Deck = JSON.parse(stringOfDeckOfCards);
+		let deckOfCards: IDeck = JSON.parse(stringOfDeckOfCards);
 		console.log(deckOfCards);
 
 		if (deckOfCards.lenght !== 0) {

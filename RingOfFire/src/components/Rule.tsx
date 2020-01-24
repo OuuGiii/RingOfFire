@@ -1,6 +1,14 @@
 import { IonItem, IonCheckbox, IonLabel } from '@ionic/react';
 import React from 'react';
-import Rules from '../pages/Rules';
+
+interface Rule {
+	title: string;
+	description: string;
+	isUsed: boolean;
+}
+interface Rules {
+	[key: string]: Rule;
+}
 
 const Rule = (props: { name: string; title: string; description: string; isUsed: boolean }) => {
 	let updateCheckBoxValueInLocalStorage = () => {
