@@ -10,7 +10,8 @@ class RulesPage extends React.Component<RouteComponentProps> {
 	ionViewWillEnter() {
 		console.log('ionViewWillEnter event fired');
 
-		if (LOCAL_STORAGE_HELPER.listOfRulesExist()) {
+		if (!LOCAL_STORAGE_HELPER.listOfRulesExist()) {
+			console.log('CREATING LIST OF RULES');
 			let listOfRules: IRules = {};
 
 			let i = 1;
@@ -41,6 +42,7 @@ class RulesPage extends React.Component<RouteComponentProps> {
 	rules_list: Array<JSX.Element> = [];
 
 	list_of_rules = () => {
+		this.rules_list = [];
 		let listOfRules: IRules = LOCAL_STORAGE_HELPER.getListOfRules();
 		for (let key in listOfRules) {
 			// skip loop if the property is from prototype

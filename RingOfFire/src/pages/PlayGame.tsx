@@ -5,6 +5,7 @@ import { informationCircleOutline } from 'ionicons/icons';
 import Card from '../components/Card';
 import { RouteComponentProps } from 'react-router';
 import { IRules, ICard, IDeck } from './../constants/interfaces';
+import LOCAL_STORAGE_HELPER from '../helper/localStorage';
 
 const AMOUNT_OF_CARDS_PER_RULE = 4;
 
@@ -22,11 +23,10 @@ class PlayGame extends React.Component<RouteComponentProps> {
 			lenght: 0
 		};
 		let listOfCards: Array<ICard> = [];
-		if (localStorage.getItem('list_of_rules') === null) {
+		if (LOCAL_STORAGE_HELPER.listOfRulesExist()) {
 			console.log('No rules where found! Add some rules to play the game');
 		} else {
-			let stringOfListOfRules: string = localStorage.getItem('list_of_rules')!;
-			let listOfRules: IRules = JSON.parse(stringOfListOfRules);
+			let listOfRules: IRules = LOCAL_STORAGE_HELPER.getListOfRules();
 
 			for (let key in listOfRules) {
 				// skip loop if the property is from prototype
@@ -51,8 +51,7 @@ class PlayGame extends React.Component<RouteComponentProps> {
 			deckOfCards.cards = listOfCards;
 			deckOfCards.lenght = listOfCards.length;
 
-			let stringOfDeckOfCards: string = JSON.stringify(deckOfCards);
-			localStorage.setItem('deck_of_cards', stringOfDeckOfCards);
+			LOCAL_STORAGE_HELPER.setDeckOfCards(deckOfCards);
 		}
 
 		console.log(localStorage);
@@ -86,6 +85,8 @@ class PlayGame extends React.Component<RouteComponentProps> {
 		descriptionContent.hidden = !descriptionContent.hidden;
 	};
 
+	// Change this to LOCAL_STORAGE_HELPER
+	//  THIS CAN BE DELETED
 	updateDeckOfCardsToLocalStorage = (deckOfCards: IDeck) => {
 		deckOfCards.lenght = deckOfCards.cards.length;
 		let stringOfDeckOfCards: string = JSON.stringify(deckOfCards);
