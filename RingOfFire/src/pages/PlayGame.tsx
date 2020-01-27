@@ -23,7 +23,7 @@ class PlayGame extends React.Component<RouteComponentProps> {
 			lenght: 0
 		};
 		let listOfCards: Array<ICard> = [];
-		if (LOCAL_STORAGE_HELPER.listOfRulesExist()) {
+		if (!LOCAL_STORAGE_HELPER.listOfRulesExist()) {
 			console.log('No rules where found! Add some rules to play the game');
 		} else {
 			let listOfRules: IRules = LOCAL_STORAGE_HELPER.getListOfRules();
